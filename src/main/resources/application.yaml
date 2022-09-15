@@ -5,10 +5,13 @@ spring:
     name: "AutomaticFishFeeder"
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:./feederDB/feed
+    url: jdbc:h2:/home/pi/feederDB/feed
     username: admin
     password: admin123
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+    open-in-view: true
+  profiles:
+    active: default

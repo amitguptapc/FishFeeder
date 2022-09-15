@@ -15,7 +15,7 @@ public class FeederAPI {
     @Autowired
     FeederService feederService;
 
-    @GetMapping("/feed")
+    @GetMapping("/manualFeed")
     public String feed() {
         return feederService.feed("manualFeed");
     }
