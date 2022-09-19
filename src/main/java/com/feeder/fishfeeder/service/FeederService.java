@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,11 +34,12 @@ public class FeederService {
         Optional<FeedStatus> feedStatusDB = feederRepo.findById(type);
         if (feedStatusDB.isPresent()) {
             count = feedStatusDB.get().getCount();
-            time = feedStatusDB.get().getTime() + ",";
+            time = feedStatusDB.get().getTime() + "\n";
         }
-        LocalTime localTime = LocalTime.now();
-        FeedStatus feedStatus = new FeedStatus(type, count + 1, time + localTime.toString().substring(0, 8));
+        String localTime = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
+        FeedStatus feedStatus = new FeedStatus(type, count + 1, time + localTime);
         feederRepo.save(feedStatus);
+        log.info("Fed successfully at " + localTime);
         return "Fed successfully at " + localTime;
     }
 
@@ -47,6 +49,7 @@ public class FeederService {
         for (FeedStatus feedStatus : feedStatusIterable) {
             list.add(new FeedStatusDTO(feedStatus.getType(), feedStatus.getCount(), feedStatus.getTime()));
         }
+        log.info("Successfully fetched feed status");
         return list;
     }
 
