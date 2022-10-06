@@ -27,6 +27,7 @@ public class FeederService {
             Runtime.getRuntime().exec("python /home/pi/feeder.py");
             log.info("Triggered RPi's servo motor");
         } catch (Exception e) {
+            log.info("Unable to feed");
             return "Unable to feed";
         }
         int count = 0;
@@ -49,7 +50,7 @@ public class FeederService {
         for (FeedStatus feedStatus : feedStatusIterable) {
             list.add(new FeedStatusDTO(feedStatus.getType(), feedStatus.getCount(), feedStatus.getTime()));
         }
-        log.info("Successfully fetched feed status");
+        log.info("Feed status fetched successfully");
         return list;
     }
 
